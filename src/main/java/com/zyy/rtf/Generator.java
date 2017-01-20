@@ -54,8 +54,10 @@ public abstract class Generator {
 	}
 	
 	protected static void generateMapper(Map data, String entityName, String packageName) {
+		//dao包名
+		data.put("daoPackageName", packageName + ".dao");
 		String _packageName = packageName + ".mapper";
-		String filePath = new String("src/" + Generator.package2path(_packageName) + "/" + entityName + ".xml");
+		String filePath = new String("src/" + Generator.package2path(_packageName) + "/" + entityName + "_sqlmap.xml");
 		generateFromTemplate(data, filePath, EntityConstant.MAPPER_TEMPLATE);
 	}
 	

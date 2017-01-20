@@ -1,5 +1,6 @@
 package com.zyy.rtf.model;
 
+import com.zyy.rtf.constant.BaseConstant;
 import com.zyy.rtf.constant.DataTypeConstant;
 import com.zyy.rtf.util.StringUtil;
 import org.apache.commons.lang.StringUtils;
@@ -14,10 +15,13 @@ public class FreeMarkEntityModel {
 	
 	/** 包名 **/
 	private String packageName;
-	
+
 	/** 实体名 **/
 	private String entityName;
-	
+
+	/** 首字母小写实体名 **/
+	private String lowerEntityName;
+
 	/** 所属数据库用户 **/
 	private String sysName;
 	
@@ -39,6 +43,9 @@ public class FreeMarkEntityModel {
 	/** 表的列集合 **/
 	private List<Column> columns;
 
+	/** 表的主键 **/
+	private Column columnKey;
+
 	
 
 	public String getPackageName() {
@@ -55,6 +62,7 @@ public class FreeMarkEntityModel {
 
 	public void setEntityName(String entityName) {
 		this.entityName = entityName;
+		this.lowerEntityName = StringUtil.toLowerCaseFirstOne(entityName);
 	}
 
 	public String getSysName() {
@@ -123,5 +131,29 @@ public class FreeMarkEntityModel {
 
 	public void setImportDataType(Set<String> importDataType) {
 		this.importDataType = importDataType;
+	}
+
+	public Column getColumnKey() {
+		if (columns == null)
+			return null;
+
+		for (Column column : columns) {
+			if (StringUtils.isNotBlank(column.getColumnKey()) && column.getColumnKey().equals(BaseConstant.TRUE)) {
+				return column;
+			}
+		}
+		return null;
+	}
+
+	public void setColumnKey(Column columnKey) {
+		this.columnKey = columnKey;
+	}
+
+	public String getLowerEntityName() {
+		return lowerEntityName;
+	}
+
+	public void setLowerEntityName(String lowerEntityName) {
+		this.lowerEntityName = lowerEntityName;
 	}
 }

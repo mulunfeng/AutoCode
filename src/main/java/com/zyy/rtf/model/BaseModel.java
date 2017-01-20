@@ -42,6 +42,7 @@ public class BaseModel implements Serializable {
 
 	public void setEntityName(String entityName) {
 		this.entityName = entityName;
+		this.lowerEntityName = StringUtil.toLowerCaseFirstOne(entityName);
 	}
 
 	public String getObjectName() {
