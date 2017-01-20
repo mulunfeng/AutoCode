@@ -1,6 +1,10 @@
 package com.zyy.rtf.model;
 
-import java.util.List;
+import com.zyy.rtf.constant.DataTypeConstant;
+import com.zyy.rtf.util.StringUtil;
+import org.apache.commons.lang.StringUtils;
+
+import java.util.*;
 
 
 /**
@@ -28,8 +32,9 @@ public class FreeMarkEntityModel {
 	
 	/** 表名描述 **/
 	private String tableRemarks;
-	
-	
+
+	/** 表的列类型Map **/
+	private Set<String> importDataType;
 
 	/** 表的列集合 **/
 	private List<Column> columns;
@@ -98,5 +103,25 @@ public class FreeMarkEntityModel {
 
 	public void setColumns(List<Column> columns) {
 		this.columns = columns;
+	}
+
+	public Set<String> getImportDataType() {
+		if (columns == null)
+			return null;
+
+		Set<String> set = new HashSet<String>();
+		for (Column column : columns) {
+			if (!DataTypeConstant.DATA_TYPE_IMPORT_MAP.containsKey(column.getType()))
+				throw new RuntimeException("没有"+column.getType()+"导入包");
+
+			if (StringUtils.isBlank(DataTypeConstant.DATA_TYPE_IMPORT_MAP.get(column.getType())))
+				continue;
+			set.add(DataTypeConstant.DATA_TYPE_IMPORT_MAP.get(column.getType()));
+		}
+		return set;
+	}
+
+	public void setImportDataType(Set<String> importDataType) {
+		this.importDataType = importDataType;
 	}
 }

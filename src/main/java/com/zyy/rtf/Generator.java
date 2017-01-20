@@ -329,7 +329,7 @@ public abstract class Generator {
 		FreeMarkDAOModel daoModel = new FreeMarkDAOModel();
 		daoModel.setBasePackage(packageName);
 		
-		String daoInterfaceName = "I" + entityName + "DAO";
+		String daoInterfaceName = entityName + "Mapper";
 		String _packageName = packageName + ".dao";
 		daoModel.setDaoInterfaceName(daoInterfaceName);
 		daoModel.setPackageName(_packageName);
@@ -342,17 +342,6 @@ public abstract class Generator {
 		String filePath = new String("src/" + Generator.package2path(_packageName) + "/" + daoInterfaceName + ".java");
 		generateFromTemplate(data, filePath, DAOConstant.DAO_INTERFACE_TEMPLATE);
 		
-		String daoName = entityName + "DAOImpl";
-		_packageName = packageName + ".dao.impl";
-		daoModel.setDaoName(daoName);
-		daoModel.setPackageName(_packageName);
-		
-		String repositoryName = "i"+entityName+"DAO";
-		daoModel.setRepositoryName(repositoryName);
-		
-		data.put("model", daoModel);
-		filePath = new String("src/" + Generator.package2path(_packageName) + "/" + daoName + ".java");
-		generateFromTemplate(data, filePath, DAOConstant.DAO_IMPL_TEMPLATE);
 	}
 	
 	/**

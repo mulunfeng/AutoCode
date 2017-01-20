@@ -1,5 +1,7 @@
 package com.zyy.rtf.model;
 
+import com.zyy.rtf.util.StringUtil;
+
 import java.io.Serializable;
 
 public class BaseModel implements Serializable {
@@ -11,6 +13,8 @@ public class BaseModel implements Serializable {
 	private String packageName;
 	/** 实体名 **/
 	private String entityName;
+	/** 首字母小写实体名 **/
+	private String lowerEntityName;
 	/** 实体变量名 **/
 	private String objectName;
 	/** 实体类包名 **/
@@ -56,4 +60,11 @@ public class BaseModel implements Serializable {
 		this.entityPackageName = entityPackageName;
 	}
 
+	public String getLowerEntityName() {
+		return StringUtil.toLowerCaseFirstOne(this.entityName);
+	}
+
+	public void setLowerEntityName(String lowerEntityName) {
+		this.lowerEntityName = lowerEntityName;
+	}
 }

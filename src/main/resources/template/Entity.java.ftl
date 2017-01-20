@@ -1,13 +1,11 @@
 package ${model.packageName};
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 
 <#if model.extendName?if_exists!="">import com.nk.emis.frame.common.${model.extendName};</#if>
+<#list model.importDataType as dataType>
+import ${dataType}
+</#list>
 
-<#if model.tableRemarks?exists>
+<#if model.tableRemarks!="">
 /**
  *
  * ${model.tableRemarks}
@@ -39,22 +37,8 @@ public class ${model.entityName} <#if model.extendName?if_exists!="">extends ${m
 	}
  	
 	<#list model.columns as field>
-		
-	<#if field.columnKey??>
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "HIBERNATE_SEQUENCE")
-	@SequenceGenerator(name = "HIBERNATE_SEQUENCE", allocationSize = 1, sequenceName = "HIBERNATE_SEQUENCE")
-	@Column(name="${field.name}")
-	public ${field.type} get${field.getSetName}() {
-		return ${field.javaName};
-	}
-	
-	public void set${field.getSetName}(${field.type} ${field.javaName}) {
-		this.${field.javaName} = ${field.javaName};
-	}
-	<#else>
 	/**
-	 * @return <#if field.comments?exists>${field.comments}<#else>${field.javaName}</#if>
+	 * @return <#if field.comments!="">${field.comments}<#else>${field.javaName}</#if>
 	 */
 	public ${field.type} get${field.getSetName}() {
 		return ${field.javaName};
@@ -65,7 +49,6 @@ public class ${model.entityName} <#if model.extendName?if_exists!="">extends ${m
 	public void set${field.getSetName}(${field.type} ${field.javaName}) {
 		this.${field.javaName} = ${field.javaName};
 	}
-	</#if>
 	</#list>
  	
 }
