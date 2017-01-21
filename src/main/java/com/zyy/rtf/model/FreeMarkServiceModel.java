@@ -1,46 +1,28 @@
 package com.zyy.rtf.model;
 
-import java.io.Serializable;
+import com.zyy.rtf.constant.BaseConstant;
+import org.apache.commons.lang.StringUtils;
 
-public class FreeMarkServiceModel implements Serializable {
+import java.io.Serializable;
+import java.util.List;
+
+public class FreeMarkServiceModel extends BaseModel {
 
 	private static final long serialVersionUID = 2937705254827977138L;
-	/** 基础包 **/
-	private String basePackage;
-	/** 包名 **/
-	private String packageName;
 	/** Service实现名 **/
 	private String serviceName;
 	/** Service接口名 **/
 	private String serviceInterfaceName;
 	/** Spring管理的Bean名 **/
 	private String serviceBeanName;
-	/** 实体名 **/
-	private String entityName;
-	/** 实体变量名 **/
-	private String objectName;
-	/** 实体类包名 **/
-	private String entityPackageName;
 	/** DAO名 **/
 	private String daoName;
 	/** DAO包名 **/
 	private String daoPackageName;
-	
-	public String getBasePackage() {
-		return basePackage;
-	}
-
-	public void setBasePackage(String basePackage) {
-		this.basePackage = basePackage;
-	}
-
-	public String getPackageName() {
-		return packageName;
-	}
-
-	public void setPackageName(String packageName) {
-		this.packageName = packageName;
-	}
+	/** 表的列集合 **/
+	private List<Column> columns;
+	/** 表的主键 **/
+	private Column columnKey;
 
 	public String getServiceName() {
 		return serviceName;
@@ -66,30 +48,6 @@ public class FreeMarkServiceModel implements Serializable {
 		this.serviceBeanName = serviceBeanName;
 	}
 
-	public String getEntityName() {
-		return entityName;
-	}
-
-	public void setEntityName(String entityName) {
-		this.entityName = entityName;
-	}
-
-	public String getObjectName() {
-		return objectName;
-	}
-
-	public void setObjectName(String objectName) {
-		this.objectName = objectName;
-	}
-
-	public String getEntityPackageName() {
-		return entityPackageName;
-	}
-
-	public void setEntityPackageName(String entityPackageName) {
-		this.entityPackageName = entityPackageName;
-	}
-
 	public String getDaoName() {
 		return daoName;
 	}
@@ -106,4 +64,27 @@ public class FreeMarkServiceModel implements Serializable {
 		this.daoPackageName = daoPackageName;
 	}
 
+	public Column getColumnKey() {
+		if (columns == null)
+			return null;
+
+		for (Column column : columns) {
+			if (StringUtils.isNotBlank(column.getColumnKey()) && column.getColumnKey().equals(BaseConstant.TRUE)) {
+				return column;
+			}
+		}
+		return null;
+	}
+
+	public void setColumnKey(Column columnKey) {
+		this.columnKey = columnKey;
+	}
+
+	public List<Column> getColumns() {
+		return columns;
+	}
+
+	public void setColumns(List<Column> columns) {
+		this.columns = columns;
+	}
 }

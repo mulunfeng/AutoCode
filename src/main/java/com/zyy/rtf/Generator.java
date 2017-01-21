@@ -276,7 +276,7 @@ public abstract class Generator {
 		data.put("model", model);
 		String filePath = new String("src/" + Generator.package2path(packageName) + "/"	+ entityName + ".java");
 		generateFromTemplate(data, filePath, EntityConstant.ENTITY_TEMPLATE);
-		generateService(pro.getProperty(EntityConstant.PACKAGE), entityName);
+		generateService(data, pro.getProperty(EntityConstant.PACKAGE), entityName);
 		generateDAO(pro.getProperty(EntityConstant.PACKAGE), entityName);
 		generateMapper(data, entityName, pro.getProperty(EntityConstant.PACKAGE));
 	}
@@ -292,7 +292,7 @@ public abstract class Generator {
             .toString();
     }
 	
-	private static void generateService(String packageName, String entityName) {
+	private static void generateService(Map<String, Object> map, String packageName, String entityName) {
 		FreeMarkServiceModel serviceModel = new FreeMarkServiceModel();
 		
 		serviceModel.setBasePackage(packageName);
@@ -308,6 +308,7 @@ public abstract class Generator {
 		
 		String _packageName = packageName + ".service";
 		serviceModel.setPackageName(_packageName);
+		serviceModel.setColumns(((FreeMarkEntityModel)map.get("model")).getColumns());
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("model", serviceModel);

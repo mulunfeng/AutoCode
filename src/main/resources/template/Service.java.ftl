@@ -6,13 +6,15 @@ import ${model.basePackage}.entity.${model.entityName};
 </#if>
 
 public interface ${model.serviceInterfaceName} {
- 	
- 	PageView<${model.entityName}> queryByPage(${model.entityName} ${model.objectName}, Integer pageIndex, Integer pageSize);
- 	
- 	${model.entityName} query(Integer idEntity);
- 	 	
- 	boolean saveOrUpdate(${model.entityName} ${model.objectName});
- 	
- 	boolean delete(Integer idEntity);
- 	
+
+	PageVO<${model.entityName}> find${model.entityName}Page(${model.entityName} ${model.entityName?uncap_first}, Page page);
+
+	boolean add${model.entityName}(${model.entityName} ${model.entityName?uncap_first});
+
+	boolean del${model.entityName}(${model.columnKey.dataType} ${model.columnKey.javaName});
+
+	boolean update${model.entityName}(${model.entityName} ${model.entityName?uncap_first});
+
+	${model.entityName} get${model.entityName}(${model.columnKey.dataType} ${model.columnKey.javaName});
+
 }
