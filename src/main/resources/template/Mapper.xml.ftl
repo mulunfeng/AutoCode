@@ -24,11 +24,11 @@
                 and ${field.name} = ${r'#{'}${model.lowerEntityName}.${field.javaName}}
             </if>
 					<#elseif field.dataType == "Date">
-            <if test="${model.lowerEntityName}.start${field.javaName?cap_first} != null and ${model.lowerEntityName}.start${field.javaName?cap_first} != ''">
+            <if test="${model.lowerEntityName}.start${field.javaName?cap_first} != null">
                 and ${field.name} >= ${r'#{'}${model.lowerEntityName}.start${field.javaName?cap_first}}
             </if>
-            <if test="${model.lowerEntityName}.end${field.javaName?cap_first} != null and ${model.lowerEntityName}.end${field.javaName?cap_first} != ''">
-                and ${field.name} <= ${r'#{'}${model.lowerEntityName}.end${field.javaName?cap_first}}
+            <if test="${model.lowerEntityName}.end${field.javaName?cap_first} != null">
+                and ${field.name} &lt;= ${r'#{'}${model.lowerEntityName}.end${field.javaName?cap_first}}
             </if>
 					</#if>
 				</#if>
@@ -55,7 +55,7 @@
         ]]>
     </insert>
 
-    <delete id="delObj" parameterType="${model.packageName}.${model.entityName}">
+    <delete id="delObj" parameterType="java.lang.${model.columnKey.type}">
         <![CDATA[
         delete from ${model.tableName} where ${model.columnKey.name} = ${r'#{'}${model.columnKey.javaName}}
         ]]>

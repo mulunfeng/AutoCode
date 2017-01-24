@@ -1,14 +1,15 @@
 package com.zyy.rtf;
 
-import com.zyy.rtf.constant.DAOConstant;
-import com.zyy.rtf.constant.EntityConstant;
-import com.zyy.rtf.constant.ServiceConstant;
+import com.zyy.rtf.constant.*;
 import com.zyy.rtf.model.*;
 import com.zyy.rtf.util.ConfigurationHelper;
 import com.zyy.rtf.util.ConvertUtil;
+import com.zyy.rtf.util.FileUtil;
+import com.zyy.rtf.util.StringUtil;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -252,8 +253,8 @@ public abstract class Generator {
 	 */
 	protected static void createGenerator(String tableName,String tableRemarks, Properties pro) {
 		FreeMarkEntityModel model = new FreeMarkEntityModel();
-		Map<String, Object> data = new HashMap<String, Object>();
-		String packageName = pro.getProperty(EntityConstant.PACKAGE) + ".entity";
+		Map<String, Object> data = new HashMap<>();
+		String packageName = pro.getProperty(EntityConstant.PACKAGE);
 		// 设置包名
 		model.setPackageName(packageName);
 		// 设置继承类包名
@@ -274,11 +275,49 @@ public abstract class Generator {
 		model.setTableRemarks(tableRemarks);
 		
 		data.put("model", model);
-		String filePath = new String("src/" + Generator.package2path(packageName) + "/"	+ entityName + ".java");
-		generateFromTemplate(data, filePath, EntityConstant.ENTITY_TEMPLATE);
+		String path = GeneratorFilePath.create(model);
+		if (StringUtils.isBlank(path))
+			throw new RuntimeException("生成路径失败");
+//		generateFromTemplate(data, filePath, EntityConstant.ENTITY_TEMPLATE);
+		generateEntity(data, pro.getProperty(EntityConstant.PACKAGE), entityName);
 		generateService(data, pro.getProperty(EntityConstant.PACKAGE), entityName);
-		generateDAO(pro.getProperty(EntityConstant.PACKAGE), entityName);
+		generateDAO(data, pro.getProperty(EntityConstant.PACKAGE), entityName);
 		generateMapper(data, entityName, pro.getProperty(EntityConstant.PACKAGE));
+		generateController(data, pro.getProperty(EntityConstant.PACKAGE), entityName);
+		generateView(data, pro.getProperty(EntityConstant.PACKAGE), entityName);
+		generatePom(pro.getProperty(EntityConstant.PACKAGE));
+	}
+
+	private static void generateEntity(Map<String, Object> data, String packageName, String entityName) {
+		String filePath = new String(ModuleEnum.ENTITY.path() + BaseConstant.PROJECT_JAVA_PATH + Generator.package2path(packageName) + "/entity/" + entityName + ".java");
+		generateFromTemplate(data, filePath, EntityConstant.ENTITY_TEMPLATE);
+	}
+
+	private static void generatePom(String packageName) {
+		Map<String, String> data = new HashMap<String, String>();
+		data.put("projectName", BaseConstant.PROJECT_NAME);
+		data.put("packageName", packageName);
+		File file = new File(EntityConstant.ENTITY_TEMPLATE_DIR + "/pom");
+		if (file.exists() && file.isDirectory()) {
+			File[] files = file.listFiles();
+			for (File pom : files) {
+				generateFromTemplate(data, GeneratorFilePath.getPomPath(pom.getName()), "/pom/"+pom.getName());
+			}
+		}
+	}
+
+	private static void generateView(Map<String, Object> data, String packageName, String entityName) {
+		String _packageName = packageName + ".vm";
+		data.put("controllerPackageName", _packageName);
+		String filePath = new String("src/" + Generator.package2path(_packageName) + "/list-" + entityName + "s.vm");
+//		generateFromTemplate(data, filePath, EntityConstant.VIEW_TEMPLATE);
+	}
+
+	private static void generateController(Map<String, Object> data, String packageName, String entityName) {
+		String _packageName = packageName + ".controller";
+		data.put("controllerPackageName", _packageName);
+		String filePath = new String("src/" + Generator.package2path(_packageName) + "/" + entityName + "Controller.java");
+		generateFromTemplate(data, filePath, EntityConstant.CONTROLLER_TEMPLATE);
 	}
 
 	public static String uncapitalize(String str) {
@@ -328,7 +367,7 @@ public abstract class Generator {
 		generateFromTemplate(data, filePath, ServiceConstant.SERVICE_IMPL_TEMPLATE);
 	}
 	
-	private static void generateDAO(String packageName, String entityName) {
+	private static void generateDAO(Map<String, Object> map, String packageName, String entityName) {
 		FreeMarkDAOModel daoModel = new FreeMarkDAOModel();
 		daoModel.setBasePackage(packageName);
 		
@@ -339,7 +378,8 @@ public abstract class Generator {
 
 		daoModel.setEntityName(entityName);
 		daoModel.setObjectName(uncapitalize(entityName));
-		
+		daoModel.setColumns(((FreeMarkEntityModel)map.get("model")).getColumns());
+
 		Map<String, Object>  data = new HashMap<String, Object>();
 		data.put("model", daoModel);
 		String filePath = new String("src/" + Generator.package2path(_packageName) + "/" + daoInterfaceName + ".java");

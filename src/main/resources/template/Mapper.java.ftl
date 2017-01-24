@@ -10,7 +10,7 @@ public interface ${model.daoInterfaceName} {
 
 	void addObj(${model.entityName} ${model.lowerEntityName})throws IllegalAccessException, InvocationTargetException, NoSuchMethodException;
 
-	int delObj(${model.entityName} ${model.lowerEntityName})throws IllegalAccessException, InvocationTargetException, NoSuchMethodException;
+	int delObj(${model.columnKey.type} ${model.columnKey.javaName})throws IllegalAccessException, InvocationTargetException, NoSuchMethodException;
 
 	int updateObj(${model.entityName} ${model.lowerEntityName})throws IllegalAccessException, InvocationTargetException, NoSuchMethodException;
 

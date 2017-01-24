@@ -7,7 +7,7 @@ import ${model.basePackage}.entity.${model.entityName};
 
 public interface ${model.serviceInterfaceName} {
 
-	PageVO<${model.entityName}> find${model.entityName}Page(${model.entityName} ${model.entityName?uncap_first}, Page page);
+	Page findPage(${model.entityName} ${model.entityName?uncap_first}, PageVO pageVO);
 
 	boolean add${model.entityName}(${model.entityName} ${model.entityName?uncap_first});
 

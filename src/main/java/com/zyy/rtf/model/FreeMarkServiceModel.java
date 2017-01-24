@@ -19,10 +19,7 @@ public class FreeMarkServiceModel extends BaseModel {
 	private String daoName;
 	/** DAO包名 **/
 	private String daoPackageName;
-	/** 表的列集合 **/
-	private List<Column> columns;
-	/** 表的主键 **/
-	private Column columnKey;
+
 
 	public String getServiceName() {
 		return serviceName;
@@ -64,27 +61,4 @@ public class FreeMarkServiceModel extends BaseModel {
 		this.daoPackageName = daoPackageName;
 	}
 
-	public Column getColumnKey() {
-		if (columns == null)
-			return null;
-
-		for (Column column : columns) {
-			if (StringUtils.isNotBlank(column.getColumnKey()) && column.getColumnKey().equals(BaseConstant.TRUE)) {
-				return column;
-			}
-		}
-		return null;
-	}
-
-	public void setColumnKey(Column columnKey) {
-		this.columnKey = columnKey;
-	}
-
-	public List<Column> getColumns() {
-		return columns;
-	}
-
-	public void setColumns(List<Column> columns) {
-		this.columns = columns;
-	}
 }

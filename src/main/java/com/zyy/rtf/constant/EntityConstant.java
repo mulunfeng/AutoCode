@@ -13,7 +13,13 @@ public class EntityConstant {
 	
 	/** 模板文件-Mapper **/
 	public static final String MAPPER_TEMPLATE = "Mapper.xml.ftl";
-	
+
+	/** 模板文件-Controller **/
+	public static final String CONTROLLER_TEMPLATE = "Controller.java.ftl";
+
+	/** 模板文件-View **/
+	public static final String VIEW_TEMPLATE = "View.vm.ftl";
+
 	/** 实体包名 **/
 	public static final String PACKAGE = "PACKAGE";//"com.zyy.rtf.entity";
 	

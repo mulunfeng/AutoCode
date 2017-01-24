@@ -54,9 +54,9 @@ public class GeneratorUtil {
 	public static void main(String[] args){
 		List<String> tables = new ArrayList<String>();
 
-		tables.add("crawler_job");
-		GeneratorUtil.generator("mysql", "jdbc:mysql://172.24.7.95:3306/testzzy?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull",
-				"mysql", "123456", "", "", tables, "true","","","com.yf.vo");
+		tables.add("highprofit_changed_flowdata");
+		GeneratorUtil.generator("mysql", "jdbc:mysql://172.25.28.7:3306/jr_wools?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull",
+				"xuyanmei1", "xuyanmei1@", "", "", tables, "true","","","com.zyy.rtf");
 	}
 	
 }

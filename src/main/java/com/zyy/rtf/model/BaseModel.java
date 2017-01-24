@@ -1,8 +1,11 @@
 package com.zyy.rtf.model;
 
+import com.zyy.rtf.constant.BaseConstant;
 import com.zyy.rtf.util.StringUtil;
+import org.apache.commons.lang.StringUtils;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class BaseModel implements Serializable {
 
@@ -19,6 +22,10 @@ public class BaseModel implements Serializable {
 	private String objectName;
 	/** 实体类包名 **/
 	private String entityPackageName;
+	/** 表的列集合 **/
+	private List<Column> columns;
+	/** 表的主键 **/
+	private Column columnKey;
 
 	public String getBasePackage() {
 		return basePackage;
@@ -67,5 +74,28 @@ public class BaseModel implements Serializable {
 
 	public void setLowerEntityName(String lowerEntityName) {
 		this.lowerEntityName = lowerEntityName;
+	}
+	public Column getColumnKey() {
+		if (columns == null)
+			return null;
+
+		for (Column column : columns) {
+			if (StringUtils.isNotBlank(column.getColumnKey()) && column.getColumnKey().equals(BaseConstant.TRUE)) {
+				return column;
+			}
+		}
+		return null;
+	}
+
+	public void setColumnKey(Column columnKey) {
+		this.columnKey = columnKey;
+	}
+
+	public List<Column> getColumns() {
+		return columns;
+	}
+
+	public void setColumns(List<Column> columns) {
+		this.columns = columns;
 	}
 }

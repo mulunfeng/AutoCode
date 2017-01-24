@@ -1,8 +1,8 @@
-package ${model.packageName};
+package ${model.packageName}.entity;
 
 <#if model.extendName?if_exists!="">import com.nk.emis.frame.common.${model.extendName};</#if>
 <#list model.importDataType as dataType>
-import ${dataType}
+import ${dataType};
 </#list>
 
 <#if model.tableRemarks!="">
