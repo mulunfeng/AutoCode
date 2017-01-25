@@ -21,6 +21,16 @@
             location.href = "/toAdd${entity}.html";
         }
 
+        function del${entity}(id){
+            var url =  "/del${entity}.html?id=" + id ;
+            $.ajax({ url: url, type : "GET",  dataType:"text", success: function(data){
+                if (data != null){
+                    layer.msg('已删除!');
+                    $("#queryForm").submit();
+                }
+            }});
+        }
+
         function clearInput(){
             $("#platform").val("");
             $("#title").val("");
@@ -40,7 +50,7 @@
     <div class="ibox-title">
         <h5>活动管理</h5>
     </div>
-    <form method="post" id="queryForm" action="/woolList.html">
+    <form method="post" id="queryForm" action="/${entity?uncap_first}List.html">
         <input type="hidden" value="$!{page.pageVO.pageNumber}" id="pageNumber" name="pageNumber">
         <div class="row" style="width: 100%;">
             <div class="col-sm-10" style="float:left;width: 100%;">
