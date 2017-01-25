@@ -30,7 +30,7 @@ public class ${model.entityName}Controller {
 
 	@RequestMapping(value = "/${model.entityName?uncap_first}List.html")
 	public ModelAndView findList(${model.entityName} ${model.entityName?uncap_first}, PageVO pageVO) {
-		ModelAndView view = new ModelAndView("${model.entityName?uncap_first}/list-${model.entityName?uncap_first}s");
+		ModelAndView view = new ModelAndView("${model.entityName?uncap_first}/list-${model.entityName?uncap_first}");
 
 		Page page= ${model.entityName?uncap_first}Service.findPage(${model.entityName?uncap_first}, pageVO);
 		view.addObject("page", page);
@@ -79,7 +79,7 @@ public class ${model.entityName}Controller {
 			else
 				flag = ${model.entityName?uncap_first}Service.update${model.entityName}(${model.entityName?uncap_first});
 		} catch (Exception e) {
-			LOGGER.error("添加羊毛失败!",e);
+			LOGGER.error("添加${model.tableRemarks}失败!",e);
 			flag = false;
 		}
 		if (!flag){
@@ -98,7 +98,7 @@ public class ${model.entityName}Controller {
 		try {
 			result.setSuccess(${model.entityName?uncap_first}Service.del${model.entityName}(${DATA_TYPE_TRANS_MAP[model.columnKey.type]}${model.columnKey.javaName})));
 		} catch (Exception e) {
-			LOGGER.error("删除羊毛失败!",e);
+			LOGGER.error("删除${model.tableRemarks}失败!",e);
 			result.setSuccess(false);
 		}
 		return GsonUtils.toJson(result);
@@ -111,7 +111,7 @@ public class ${model.entityName}Controller {
 		try {
 			result.setSuccess(${model.entityName?uncap_first}Service.update${model.entityName}(${model.entityName?uncap_first}));
 		} catch (Exception e) {
-			LOGGER.error("删除羊毛失败!",e);
+			LOGGER.error("删除${model.tableRemarks}失败!",e);
 			result.setSuccess(false);
 		}
 		return result;

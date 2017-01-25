@@ -97,7 +97,7 @@ public class FileUtil {
      * @param sourcePath
      * @param targetPath
      */
-    public static void copyFiles(Map<String, String> data, String sourcePath, String targetPath) {
+    public static void copyFiles(Map<String, Object> data, String sourcePath, String targetPath) {
         File targetFilePath = new File(targetPath);
         if (!targetFilePath.exists())
             targetFilePath.mkdirs();
@@ -154,5 +154,41 @@ public class FileUtil {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static void copyViewFiles(Map<String, Object> data, String sourcePath, String targetPath) {
+        File targetFilePath = new File(targetPath);
+        if (!targetFilePath.exists())
+            targetFilePath.mkdirs();
+
+        File sourcceFilePath = new File(sourcePath);
+        if (!sourcceFilePath.exists())
+            return;
+
+        File[] files = sourcceFilePath.listFiles();
+        if (files == null || files.length == 0)
+            return;
+
+        for (File file : files) {
+            String path = file.getAbsolutePath();
+            if (file.isFile()) {
+                String fileType = path.substring(path.lastIndexOf(".")+1, path.length());
+                String tempPath = file.getPath().substring(file.getPath().indexOf("template")+8);
+                String webFilePath = (targetPath +"/"+ file.getName()).replace(".ftl","").replace("\\","/");
+                webFilePath = getViewPath(data, webFilePath);
+                if ("ftl".equals(fileType)){
+                    generateFromTemplate(data, webFilePath, tempPath);
+                }else {
+                    FileUtil.copyFile(file.getAbsolutePath(), webFilePath);
+                }
+            } else {
+                copyFiles(data, path, targetPath + path.substring(path.lastIndexOf("\\")+1, path.length()));
+            }
+        }
+    }
+
+    private static String getViewPath(Map<String, Object> data, String webFilePath) {
+        String prefix = webFilePath.substring(webFilePath.lastIndexOf("."), webFilePath.length());
+        return webFilePath.substring(0, webFilePath.lastIndexOf(".")) +"-"+ StringUtil.toLowerCaseFirstOne((String) data.get("entity")) + prefix;
     }
 }

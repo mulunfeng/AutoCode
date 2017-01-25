@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>添加羊毛</title>
+    <meta charset="UTF-8">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.min.css" rel="stylesheet">
+    <script src="/js/jquery-1.11.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/content.min.js"></script>
+    <script src="/js/layer/laydate/laydate.js"></script>
+    <script src="/js/layer/layer.js"></script>
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="ibox float-e-margins">
+            <div class="ibox-content">
+                <div class="form-horizontal">
+
+                    <input type="hidden" name="id" value="$!{woolVO.id}">
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">平台</label>
+
+                        <div class="col-sm-col">
+                            $!{woolVO.platform}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">活动标题</label>
+
+                        <div class="col-sm-col">
+                            $!{woolVO.title}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">活动内容</label>
+
+                        <div class="col-sm-col">
+                            $!{woolVO.context}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">活动类型</label>
+
+                        <div class="col-sm-col">
+                                #foreach($param in ${WoolTypeEnum.keySet()})
+                                    #if( $!{param} == $!{woolVO.woolType})
+                                        $!{WoolTypeEnum.get($param)}
+                                    #end
+                                #end
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">活动开始时间</label>
+
+                        <div class="col-sm-col">
+                            $!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{woolVO.startTime})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">活动结束时间</label>
+
+                        <div class="col-sm-col">
+                            $!dateTool.format("yyyy-MM-dd HH:mm:ss",$!{woolVO.endTime})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">活动条件</label>
+
+                        <div class="col-sm-col">
+                            $!{woolVO.woolCondition}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">跳转URL</label>
+
+                        <div class="col-sm-col">
+                            <a href="$!{woolVO.orignUrl}" target="_blank">$!{woolVO.orignUrl}</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">是否显示</label>
+
+                        <div class="col-sm-col">
+                                #foreach($param in ${DisplayEnum.keySet()})
+                                    #if( $!{param} == $!{woolVO.displayFlag})
+                                        $!{DisplayEnum.get($param)}
+                                    #end
+                                #end
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">排序值</label>
+
+                        <div class="col-sm-col">
+                            $!{woolVO.ind}
+                        </div>
+                    </div>
+
+                    <div class="hr-line-dashed"></div>
+
+
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group">
+                        <div class="col-sm-4 col-sm-offset-2" style="float: right">
+                            <button class="btn btn-primary" type="button" onclick="javascript:history.back(-1);">返回</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery-1.11.3.min.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
+<script src="/js/jquery.metadata.js"></script>
+<script src="/js/messages_zh.min.js"></script>
+<script src="/js/jquery.validate.methods.js"></script>
+</body>
+</html>

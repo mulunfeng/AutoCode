@@ -5,6 +5,7 @@ import com.zyy.rtf.model.*;
 import com.zyy.rtf.util.ConfigurationHelper;
 import com.zyy.rtf.util.ConvertUtil;
 import com.zyy.rtf.util.FileUtil;
+import com.zyy.rtf.util.StringUtil;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -41,8 +42,9 @@ public class GeneratorFilePath {
 		String voPath = "src/main/resources/template/vo/";
 		String utilsPath = "src/main/resources/template/utils/";
 		String mybatisPath = "src/main/resources/template/mybatis/";
-		Map<String, String> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("packageName", packageName);
+		map.put("model", model);
 		FileUtil.copyFiles(map, voPath, targetPath + Generator.package2path(packageName)+"/vo/");
 		FileUtil.copyFiles(map, utilsPath, targetPath + Generator.package2path(packageName)+"/utils/");
 		FileUtil.copyFiles(map, mybatisPath, targetPath + Generator.package2path(packageName)+"/mybatis/");
@@ -61,13 +63,16 @@ public class GeneratorFilePath {
 	}
 
 	private static void copyWebFile(String packageName) {
-		Map<String,String> data = new HashMap<>();
+		Map<String,Object> data = new HashMap<>();
 		data.put("packageName",packageName);
 		data.put("entity", GeneratorFilePath.model.getEntityName());
+		data.put("model", model);
 		String webFilePath = "src/template-source/webapp/";
 		String resourcePath = "src/main/resources/template/resources/";
+		String viewPath = "src/main/resources/template/view/";
 		FileUtil.copyFiles(webFilePath, projectPath + "/" + BaseConstant.PROJECT_NAME + "-web/" + BaseConstant.PROJECT_WEB_PATH );
 		FileUtil.copyFiles(data, resourcePath, projectPath + "/" + BaseConstant.PROJECT_NAME + "-web/" + BaseConstant.PROJECT_RESOURCE_PATH );
+		FileUtil.copyViewFiles(data, viewPath, projectPath + "/" + BaseConstant.PROJECT_NAME + "-web/" + BaseConstant.PROJECT_VIEW_PATH + StringUtil.toLowerCaseFirstOne(model.getEntityName()));
 	}
 
 	private static void createDaoPath(Set<String> set, String projectPath, String packageName) {
@@ -77,7 +82,7 @@ public class GeneratorFilePath {
 	}
 
 	private static void copyDaoFile(String packageName) {
-		Map<String,String> data = new HashMap<>();
+		Map<String,Object> data = new HashMap<>();
 		data.put("packageName",packageName);
 		data.put("entity", GeneratorFilePath.model.getEntityName());
 		String resourcePath = "src/main/resources/template/sqlmap/";
