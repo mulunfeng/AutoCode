@@ -15,7 +15,7 @@
         function initError() {
             #if($errorMsg)
                 #foreach($item in $errorMsg)
-                    $("input[name=$item.field]").after("<span style='color: firebrick'>$item.defaultMessage</span>");
+                    $("input[name=$item.field]").after("<span style='color: firebrick'>$item.defaultMessage.replaceAll('"',"'")</span>");
                 #end
             #end
 
@@ -44,7 +44,7 @@
                 <form action="/add${model.entityName}.html" id="add${model.entityName}" method="post" class="form-horizontal">
                 <#list model.columns as field>
                     <#if field.columnKey??>
-                    <input type="hidden" name="${field.javaName}" value="${r'#$!{'}${model.entityName?uncap_first}.${field.javaName}}">
+                    <input type="hidden" name="${field.javaName}" value="${r'$!{'}${model.entityName?uncap_first}.${field.javaName}}">
                     <#else>
                     <div class="form-group">
                         <label class="col-sm-2 control-label"><#if field.comments?if_exists!="">${field.comments}<#else>${field.javaName}</#if><#if !field.nullable><label style="color:red">*</label></#if></label>
@@ -80,8 +80,6 @@
     $(document).ready(function() {
         $("#add${model.entityName}").validate();
     });
-    var start={elem:"#start",format:"YYYY-MM-DD hh:mm:ss",max:"2099-06-16 23:59:59",istime:true,istoday:false,choose:function(datas){end.min=datas;end.start=datas}};
-    var end={elem:"#endTime",format:"YYYY-MM-DD hh:mm:ss",max:"2099-06-16 23:59:59",istime:true,istoday:false,choose:function(datas){$("#endTime").val(datas.replace(" 00:00:00"," 23:59:59"));start.max=datas}};laydate(start);laydate(end);
 </script>
 </body>
 </html>
