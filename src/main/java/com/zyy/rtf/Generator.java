@@ -130,7 +130,7 @@ public abstract class Generator {
 				column.setLength(String.valueOf(rsmd.getColumnDisplaySize(i)));
 
 				// 是否为空
-				column.setNullable(String.valueOf("1".equals(rsmd.isNullable(i))));
+				column.setNullable(1 == rsmd.isNullable(i));
 				
 				String columnRemark = columnRemarkMap.get(column.getName());
 				if(columnRemark != null){

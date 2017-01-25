@@ -30,7 +30,7 @@ public class Column implements Serializable {
 	/** 数据长度 **/
 	private String length;
 	/** 是否为空 **/
-	private String nullable;
+	private boolean nullable;
 	/** 列注释 **/
 	private String comments;
 	/** 主键 **/
@@ -43,7 +43,7 @@ public class Column implements Serializable {
 
 	public Column(String name, String javaName, String getSetName,
 			String dataType, String type, String typeDB, String precision,
-			String scale, String length, String nullable, String comments,
+			String scale, String length, boolean nullable, String comments,
 			String columnKey) {
 		super();
 		this.name = name;
@@ -61,7 +61,7 @@ public class Column implements Serializable {
 	}
 
 	public Column(String name, String javaName, String dataType,
-			String precision, String scale, String length, String nullable,
+			String precision, String scale, String length, boolean nullable,
 			String comments, String columnKey) {
 		super();
 		this.name = name;
@@ -147,11 +147,11 @@ public class Column implements Serializable {
 		this.length = length;
 	}
 
-	public String getNullable() {
+	public boolean getNullable() {
 		return nullable;
 	}
 
-	public void setNullable(String nullable) {
+	public void setNullable(boolean nullable) {
 		this.nullable = nullable;
 	}
 

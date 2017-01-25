@@ -47,10 +47,10 @@
                     <input type="hidden" name="${field.javaName}" value="${r'#$!{'}${model.entityName?uncap_first}.${field.javaName}}">
                     <#else>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label"><#if field.comments?if_exists!="">${field.comments}<#else>${field.javaName}</#if><label style="color:red">*</label></label>
+                        <label class="col-sm-2 control-label"><#if field.comments?if_exists!="">${field.comments}<#else>${field.javaName}</#if><#if !field.nullable><label style="color:red">*</label></#if></label>
 
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="${field.javaName}" value="${r'$!{'}${model.entityName?uncap_first}.${field.javaName}}">
+                            <input type="text" class="form-control" name="${field.javaName}" value="${r'$!{'}${model.entityName?uncap_first}.${field.javaName}}" <#if !field.nullable>required="true"</#if>>
                         </div>
                     </div>
                     </#if>
