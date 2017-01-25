@@ -1,17 +1,18 @@
 package ${model.packageName};
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.util.List;
+import ${model.basePackage}.vo.PageVO;
+import ${model.basePackage}.vo.Page;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 <#if model.entityName?if_exists!="">import ${model.basePackage}.entity.${model.entityName};</#if>
-<#if model.entityName?if_exists!="">import ${model.basePackage}.dao.I${model.entityName}DAO;</#if>
+<#if model.entityName?if_exists!="">import ${model.basePackage}.dao.${model.entityName}Mapper;</#if>
 <#if model.serviceInterfaceName?if_exists!="">import ${model.basePackage}.service.${model.serviceInterfaceName};</#if>
-import com.nk.emis.frame.common.PageView;
- 	
-<#if model.serviceBeanName?if_exists!="">@Service("${model.serviceBeanName}")<#else></#if>
+
+<#if model.serviceBeanName?if_exists!="">@Service("${model.serviceBeanName?uncap_first}")<#else></#if>
 
 public class ${model.serviceName} <#if model.serviceInterfaceName?if_exists!="">implements ${model.serviceInterfaceName}<#else></#if> {
 	private static final Logger LOGGER = LoggerFactory.getLogger(${model.serviceName}.class);
@@ -23,9 +24,14 @@ public class ${model.serviceName} <#if model.serviceInterfaceName?if_exists!="">
  	
  	@Override
  	public Page findPage(${model.entityName} ${model.objectName},PageVO pageVO){
-		List<${model.entityName}> list = this.${model.objectName}Mapper.findList(${model.objectName}, pageVO);
-		Page page = new Page(list, pageVO);
- 		return page;
+		try {
+			List<${model.entityName}> list = this.${model.objectName}Mapper.findList(${model.objectName}, pageVO);
+			Page page = new Page(list, pageVO);
+			return page;
+		}  catch (Exception e) {
+			LOGGER.error("findPage fail!", e);
+		}
+		return null;
  	}
 
  	@Override

@@ -15,12 +15,21 @@ import ${dataType};
 public class ${model.entityName} <#if model.extendName?if_exists!="">extends ${model.extendName} <#else></#if>{
 
 	<#list model.columns as field>
-	<#if field.comments?exists>/** ${field.comments} **/ <#else> </#if>
+	<#if field.comments?if_exists!="">/** ${field.comments} **/ <#else> </#if>
 	<#if field.columnKey??>
 	private ${field.type} ${field.javaName};
 	<#else>
 	private ${field.type} ${field.javaName};
 	</#if>
+	</#list>
+
+	<#list model.columns as field>
+		<#if field.dataType == "Date">
+	<#if field.comments?if_exists!="">/** 临时字段开始-${field.comments} **/ <#else> </#if>
+	private ${field.type} ${field.javaName}Begin;
+	<#if field.comments?if_exists!="">/** 临时字段结束-${field.comments} **/ <#else> </#if>
+	private ${field.type} ${field.javaName}End;
+		</#if>
 	</#list>
 	
 	/** 无参的构造函数 **/
@@ -49,6 +58,36 @@ public class ${model.entityName} <#if model.extendName?if_exists!="">extends ${m
 	public void set${field.getSetName}(${field.type} ${field.javaName}) {
 		this.${field.javaName} = ${field.javaName};
 	}
+	</#list>
+
+	<#list model.columns as field>
+		<#if field.dataType == "Date">
+     /**
+	* @return <#if field.comments!="">${field.comments}<#else>${field.javaName}Begin</#if>
+	*/
+	public ${field.type} get${field.getSetName}Begin() {
+		return ${field.javaName}Begin;
+	}
+	/**
+	* @param <#if field.comments?exists>${field.javaName}Begin ${field.comments}<#else>${field.javaName}Begin</#if>
+	*/
+	public void set${field.getSetName}Begin(${field.type} ${field.javaName}Begin) {
+		this.${field.javaName}Begin = ${field.javaName}End;
+	}
+
+	/**
+	* @return <#if field.comments!="">${field.comments}<#else>${field.javaName}End</#if>
+	*/
+	public ${field.type} get${field.getSetName}End() {
+		return ${field.javaName}End;
+	}
+	/**
+	* @param <#if field.comments?exists>${field.javaName}End ${field.comments}<#else>${field.javaName}End</#if>
+	*/
+	public void set${field.getSetName}End(${field.type} ${field.javaName}End) {
+		this.${field.javaName}End = ${field.javaName}End;
+	}
+		</#if>
 	</#list>
  	
 }

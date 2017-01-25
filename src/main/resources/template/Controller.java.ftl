@@ -1,11 +1,21 @@
 package ${controllerPackageName};
 
-import java.util.HashMap;
-import java.util.Map;
-
+import ${model.packageName}.vo.PageVO;
+import ${model.packageName}.vo.Page;
+import ${model.packageName}.vo.Result;
+import ${model.packageName}.utils.GsonUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
+import javax.validation.Valid;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import ${model.packageName}.service.${model.entityName}Service;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+import ${model.packageName}.entity.${model.entityName};
 
 <#if model.serviceBeanName?if_exists!="">@Service("${model.serviceBeanName}")<#else></#if>
 
@@ -39,7 +49,7 @@ public class ${model.entityName}Controller {
 	@RequestMapping(value = "/show${model.entityName}.html")
 	public ModelAndView show${model.entityName}(String id) {
 		ModelAndView view = new ModelAndView("${model.entityName?uncap_first}/show-${model.entityName?uncap_first}");
-		${model.entityName} ${model.entityName?uncap_first} = ${model.entityName?uncap_first}Service.get${model.entityName}(${model.columnKey.javaName});
+		${model.entityName} ${model.entityName?uncap_first} = ${model.entityName?uncap_first}Service.get${model.entityName}(${DATA_TYPE_TRANS_MAP[model.columnKey.type]}${model.columnKey.javaName}));
 		view.addObject("${model.entityName?uncap_first}", ${model.entityName?uncap_first});
 		return view;
 	}
@@ -49,7 +59,6 @@ public class ${model.entityName}Controller {
 		ModelAndView view = new ModelAndView("${model.entityName?uncap_first}/input-${model.entityName?uncap_first}");
 		${model.entityName} ${model.entityName?uncap_first} = ${model.entityName?uncap_first}Service.get${model.entityName}(Long.parseLong(id));
 		view.addObject("${model.entityName?uncap_first}", ${model.entityName?uncap_first});
-		initEnumsMap(view);
 		return view;
 	}
 
@@ -61,7 +70,6 @@ public class ${model.entityName}Controller {
 			view = new ModelAndView("${model.entityName?uncap_first}/input-${model.entityName?uncap_first}");
 			view.addObject("${model.entityName?uncap_first}", ${model.entityName?uncap_first});
 			view.addObject("errorMsg", re.getFieldErrors());
-			initEnumsMap(view);
 			return view;
 		}
 		boolean flag;
@@ -78,7 +86,6 @@ public class ${model.entityName}Controller {
 			view = new ModelAndView("${model.entityName?uncap_first}/input-${model.entityName?uncap_first}");
 			view.addObject("${model.entityName?uncap_first}", ${model.entityName?uncap_first});
 			view.addObject("errorMsgInfo", "保存数据失败，请稍候重试！");
-			initEnumsMap(view);
 			return view;
 		}
 		return view;
@@ -86,15 +93,15 @@ public class ${model.entityName}Controller {
 
 	@RequestMapping(value = "/del${model.entityName}.html")
 	@ResponseBody
-	public String del${model.entityName}(String id) {
+	public String del${model.entityName}(String ${model.columnKey.javaName}) {
 		Result result = new Result();
 		try {
-			result.setSuccess(${model.entityName?uncap_first}Service.del${model.entityName}(${model.entityName?uncap_first}));
+			result.setSuccess(${model.entityName?uncap_first}Service.del${model.entityName}(${DATA_TYPE_TRANS_MAP[model.columnKey.type]}${model.columnKey.javaName})));
 		} catch (Exception e) {
 			LOGGER.error("删除羊毛失败!",e);
 			result.setSuccess(false);
 		}
-		return JSON.toJSONString(result);
+		return GsonUtils.toJson(result);
 	}
 
 	@RequestMapping(value = "/update${model.entityName}.action")

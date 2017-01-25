@@ -1,10 +1,10 @@
 package ${model.packageName};
 
-import java.util.Map;
-
-import com.nk.emis.frame.dao.IBaseDAO;
 import ${model.basePackage}.entity.${model.entityName};
-import com.nk.emis.frame.common.PageView;
+import org.apache.ibatis.annotations.Param;
+import java.lang.reflect.InvocationTargetException;
+import ${model.basePackage}.vo.PageVO;
+import java.util.List;
 
 public interface ${model.daoInterfaceName} {
 

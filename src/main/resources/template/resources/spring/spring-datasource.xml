@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="businessDataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close">
+		<property name="driverClass" value="${business.jdbc.driverClassName}"/>
+		<property name="jdbcUrl" value="${business.jdbc.url}"/>
+		<property name="username" value="${business.jdbc.username}"/>
+		<property name="password" value="${business.jdbc.password}"/>
+		<property name="partitionCount" value="${business.jdbc.partitionCount}"/>
+		<property name="acquireIncrement" value="${business.jdbc.acquireIncrement}"/>
+		<property name="minConnectionsPerPartition" value="${business.jdbc.minConnectionsPerPartition}"/>
+		<property name="maxConnectionsPerPartition" value="${business.jdbc.maxConnectionsPerPartition}"/>
+		<property name="statementsCacheSize" value="${business.jdbc.statementsCacheSize}"/>
+		<property name="releaseHelperThreads" value="${business.jdbc.releaseHelperThreads}"/>
+		<property name="idleConnectionTestPeriodInMinutes" value="${business.jdbc.idleConnectionTestPeriodInMinutes}"/>
+		<property name="idleMaxAgeInMinutes" value="${business.jdbc.idleMaxAgeInMinutes}"/>
+		<property name="connectionTimeoutInMs" value="${connectionTimeoutInMs}"/>
+		<property name="closeConnectionWatchTimeoutInMs" value="${closeConnectionWatchTimeoutInMs}"/>
+		<property name="defaultAutoCommit" value="true"/>
+		<property name="lazyInit" value="false"/>
+	</bean>
+
+	<bean id="businessTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="businessDataSource"/>
+	</bean>
+
+</beans>

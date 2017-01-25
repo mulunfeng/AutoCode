@@ -1,6 +1,7 @@
 package ${model.packageName};
 
-import com.nk.emis.frame.common.PageView;
+import ${model.basePackage}.vo.PageVO;
+import ${model.basePackage}.vo.Page;
 <#if model.entityName?if_exists!="">
 import ${model.basePackage}.entity.${model.entityName};
 </#if>

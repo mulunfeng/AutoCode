@@ -54,7 +54,7 @@ public class GeneratorUtil {
 	public static void main(String[] args){
 		List<String> tables = new ArrayList<String>();
 
-		tables.add("highprofit_changed_flowdata");
+		tables.add("wool");
 		GeneratorUtil.generator("mysql", "jdbc:mysql://172.25.28.7:3306/jr_wools?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull",
 				"xuyanmei1", "xuyanmei1@", "", "", tables, "true","","","com.zyy.rtf");
 	}

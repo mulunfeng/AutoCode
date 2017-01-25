@@ -166,7 +166,7 @@
                 <version>2.2.4</version>
             </dependency>
 
-            <!-- mybatis -->
+            <!-- vo -->
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>

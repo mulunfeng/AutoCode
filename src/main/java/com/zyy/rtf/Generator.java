@@ -57,8 +57,7 @@ public abstract class Generator {
 	protected static void generateMapper(Map data, String entityName, String packageName) {
 		//dao包名
 		data.put("daoPackageName", packageName + ".dao");
-		String _packageName = packageName + ".mapper";
-		String filePath = new String("src/" + Generator.package2path(_packageName) + "/" + entityName + "_sqlmap.xml");
+		String filePath = new String(ModuleEnum.ENTITY.path() + BaseConstant.SQLMAP_MYSQL_PATH + entityName + "_sqlmap.xml");
 		generateFromTemplate(data, filePath, EntityConstant.MAPPER_TEMPLATE);
 	}
 	
@@ -278,7 +277,6 @@ public abstract class Generator {
 		String path = GeneratorFilePath.create(model);
 		if (StringUtils.isBlank(path))
 			throw new RuntimeException("生成路径失败");
-//		generateFromTemplate(data, filePath, EntityConstant.ENTITY_TEMPLATE);
 		generateEntity(data, pro.getProperty(EntityConstant.PACKAGE), entityName);
 		generateService(data, pro.getProperty(EntityConstant.PACKAGE), entityName);
 		generateDAO(data, pro.getProperty(EntityConstant.PACKAGE), entityName);
@@ -316,7 +314,8 @@ public abstract class Generator {
 	private static void generateController(Map<String, Object> data, String packageName, String entityName) {
 		String _packageName = packageName + ".controller";
 		data.put("controllerPackageName", _packageName);
-		String filePath = new String("src/" + Generator.package2path(_packageName) + "/" + entityName + "Controller.java");
+		data.put("DATA_TYPE_TRANS_MAP", DataTypeConstant.DATA_TYPE_TRANS_MAP);
+		String filePath = new String(ModuleEnum.WEB.path() + BaseConstant.PROJECT_JAVA_PATH + Generator.package2path(_packageName) + "/" + entityName + "Controller.java");
 		generateFromTemplate(data, filePath, EntityConstant.CONTROLLER_TEMPLATE);
 	}
 
@@ -342,7 +341,7 @@ public abstract class Generator {
 		String entityPackageName = packageName + ".entity." + entityName;
 		serviceModel.setEntityPackageName(entityPackageName);
 		
-		String serviceInterfaceName = "I" + entityName + "Service";
+		String serviceInterfaceName = entityName + "Service";
 		serviceModel.setServiceInterfaceName(serviceInterfaceName);
 		
 		String _packageName = packageName + ".service";
@@ -351,19 +350,18 @@ public abstract class Generator {
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("model", serviceModel);
-		
-		String filePath = new String("src/" + Generator.package2path(_packageName) + "/" + serviceInterfaceName + ".java");
+		String filePath = new String(ModuleEnum.SERVICE.path() + BaseConstant.PROJECT_JAVA_PATH + Generator.package2path(_packageName) + "/" + serviceInterfaceName + ".java");
 		generateFromTemplate(data, filePath, ServiceConstant.SERVICE_INTERFACE_TEMPLATE);
 		
 		String serviceName = entityName + "ServiceImpl";
 		serviceModel.setServiceName(serviceName);
-		String serviceBeanName = "i"+entityName+"Service";
+		String serviceBeanName = entityName+"Service";
 		serviceModel.setServiceBeanName(serviceBeanName);
 		
 		_packageName = packageName + ".service.impl";
 		serviceModel.setPackageName(_packageName);
 		
-		filePath = new String("src/" + Generator.package2path(_packageName) + "/" + serviceName + ".java");
+		filePath = new String(ModuleEnum.SERVICE.path() + BaseConstant.PROJECT_JAVA_PATH + Generator.package2path(_packageName) + "/" + serviceName + ".java");
 		generateFromTemplate(data, filePath, ServiceConstant.SERVICE_IMPL_TEMPLATE);
 	}
 	
@@ -382,7 +380,7 @@ public abstract class Generator {
 
 		Map<String, Object>  data = new HashMap<String, Object>();
 		data.put("model", daoModel);
-		String filePath = new String("src/" + Generator.package2path(_packageName) + "/" + daoInterfaceName + ".java");
+		String filePath = new String(ModuleEnum.DAO.path() + BaseConstant.PROJECT_JAVA_PATH + Generator.package2path(_packageName) + "/" + daoInterfaceName + ".java");
 		generateFromTemplate(data, filePath, DAOConstant.DAO_INTERFACE_TEMPLATE);
 		
 	}
