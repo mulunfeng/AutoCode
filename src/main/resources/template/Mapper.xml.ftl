@@ -51,7 +51,7 @@
 		)
         values (
 		    <#list model.columns as field>${r'#{'}${field.javaName}}<#if (field_has_next)>,</#if><#if (field_index % 9 = 8) >${"\r\t\t\t"}</#if></#list>
-		);
+		)
         ]]>
     </insert>
 

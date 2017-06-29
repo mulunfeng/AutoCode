@@ -24,7 +24,7 @@ public class GeneratorFilePath {
 
 	public static String create(FreeMarkEntityModel model) {
 		GeneratorFilePath.model =  model;
-		Set<String> set = new HashSet<>();
+		Set<String> set = new HashSet<String>();
 		String packageName = model.getPackageName();
 		createDaoPath(set, projectPath, packageName);//dao module
 		createWebPath(set, projectPath, packageName);//web module
@@ -42,7 +42,7 @@ public class GeneratorFilePath {
 		String voPath = "src/main/resources/template/vo/";
 		String utilsPath = "src/main/resources/template/utils/";
 		String mybatisPath = "src/main/resources/template/mybatis/";
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("packageName", packageName);
 		map.put("model", model);
 		FileUtil.copyFiles(map, voPath, targetPath + Generator.package2path(packageName)+"/vo/");
@@ -63,7 +63,7 @@ public class GeneratorFilePath {
 	}
 
 	private static void copyWebFile(String packageName) {
-		Map<String,Object> data = new HashMap<>();
+		Map<String,Object> data = new HashMap<String, Object>();
 		data.put("packageName",packageName);
 		data.put("entity", GeneratorFilePath.model.getEntityName());
 		data.put("model", model);
@@ -82,7 +82,7 @@ public class GeneratorFilePath {
 	}
 
 	private static void copyDaoFile(String packageName) {
-		Map<String,Object> data = new HashMap<>();
+		Map<String,Object> data = new HashMap<String, Object>();
 		data.put("packageName",packageName);
 		data.put("entity", GeneratorFilePath.model.getEntityName());
 		String resourcePath = "src/main/resources/template/sqlmap/";

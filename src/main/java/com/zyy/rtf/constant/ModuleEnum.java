@@ -40,7 +40,7 @@ public enum ModuleEnum {
     }
 
     public static Map<String,String> asMap() {
-        Map<String,String> result = new LinkedHashMap<>();
+        Map<String,String> result = new LinkedHashMap<String,String>();
         for (ModuleEnum module : ModuleEnum.values()) {
             result.put(module.value, module.modulePath);
         }

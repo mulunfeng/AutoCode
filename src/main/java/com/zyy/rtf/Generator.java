@@ -252,7 +252,7 @@ public abstract class Generator {
 	 */
 	protected static void createGenerator(String tableName,String tableRemarks, Properties pro) {
 		FreeMarkEntityModel model = new FreeMarkEntityModel();
-		Map<String, Object> data = new HashMap<>();
+		Map<String, Object> data = new HashMap<String,Object>();
 		String packageName = pro.getProperty(EntityConstant.PACKAGE);
 		// 设置包名
 		model.setPackageName(packageName);
